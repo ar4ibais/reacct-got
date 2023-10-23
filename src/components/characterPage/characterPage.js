@@ -5,12 +5,16 @@ import CharDetails from '../charDetails';
 
 import './characterPage.css';
 import ErrorMessage from "../errorMessage/errorMessage";
+import GotService from "../services/gotServices";
 
 class CharacterPage extends Component {
     state = {
         selectedChar: 130,
         error: false
     }
+
+    gotService = new GotService();
+
     componentDidCatch() {
         this.setState({ error: true })
     }
@@ -26,7 +30,7 @@ class CharacterPage extends Component {
         return (
             <Row>
                 <Col md='6'>
-                    <ItemList onCharSelected={this.onCharSelected} />
+                    <ItemList onCharSelected={this.onCharSelected} getData={this.gotService.getAllCharacters} />
                 </Col>
                 <Col md='6'>
                     <CharDetails charId={this.state.selectedChar} />
