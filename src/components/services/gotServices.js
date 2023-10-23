@@ -45,6 +45,7 @@ class GotService {
 
     _transformCharacter = (res) => {
         return {
+            id: +res.url.slice(-2),
             name: res.name ? res.name : 'No data in API',
             gender: res.gender ? res.gender : 'No data in API',
             born: res.born ? res.born : 'No data in API',

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Col, Row } from 'reactstrap';
 import ItemList from '../itemList';
 import CharDetails from '../charDetails';
 
 import './characterPage.css';
 import ErrorMessage from "../errorMessage/errorMessage";
 import GotService from "../services/gotServices";
+import RowBlock from "../rowblock";
 
 class CharacterPage extends Component {
     state = {
@@ -27,15 +27,22 @@ class CharacterPage extends Component {
         if (!this.state.selectedChar) {
             return <ErrorMessage />
         }
+
+        const itemList = (
+            <ItemList
+                onCharSelected={this.onCharSelected}
+                getData={this.gotService.getAllCharacters}
+                renderItem={({ name, gender }) => `${name} (${gender})`}
+            />
+        )
+
+        const charDetails = (
+            <CharDetails charId={this.state.selectedChar} />
+
+        )
+
         return (
-            <Row>
-                <Col md='6'>
-                    <ItemList onCharSelected={this.onCharSelected} getData={this.gotService.getAllCharacters} />
-                </Col>
-                <Col md='6'>
-                    <CharDetails charId={this.state.selectedChar} />
-                </Col>
-            </Row>
+            <RowBlock left={itemList} right={charDetails} />
         )
     }
 }
