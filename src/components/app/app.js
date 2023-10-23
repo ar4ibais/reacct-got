@@ -1,34 +1,52 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Col, Row, Container } from 'reactstrap';
 import Header from '../header';
 import RandomChar from '../randomChar';
-import ItemList from '../itemList';
-import CharDetails from '../charDetails';
 
 
-const App = () => {
-    return (
-        <>
-            <Container>
-                <Header />
-            </Container>
-            <Container>
-                <Row>
-                    <Col lg={{ size: 5, offset: 0 }}>
-                        <RandomChar />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md='6'>
-                        <ItemList />
-                    </Col>
-                    <Col md='6'>
-                        <CharDetails />
-                    </Col>
-                </Row>
-            </Container>
-        </>
-    );
+import './app.css'
+import ErrorMessage from '../errorMessage/errorMessage';
+import CharacterPage from '../characterPage';
+
+
+class App extends Component {
+    state = {
+        visible: true,
+        error: false
+    }
+
+    componentDidCatch() {
+        this.setState({ error: true })
+    }
+
+    onChangeVisible = () => {
+        this.setState({ visible: !this.state.visible })
+    }
+
+    render() {
+        if (this.state.error) {
+            return <ErrorMessage />
+        }
+        return (
+            <>
+                <Container>
+                    <Header />
+                </Container>
+                <Container>
+                    <Row>
+                        <Col lg={{ size: 5, offset: 0 }}>
+                            {this.state.visible ? <RandomChar /> : null}
+                        </Col>
+                    </Row>
+                    <button
+                        onClick={this.onChangeVisible}
+                        className='toggle-btn'
+                    >Toggle RandomChar</button>
+                    <CharacterPage />
+                </Container>
+            </>
+        );
+    }
 };
 
 export default App;
